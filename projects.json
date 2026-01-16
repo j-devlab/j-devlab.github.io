@@ -1,1 +1,21 @@
+[
+  {
+    "title": "Glass UI Landing",
+    "year": "2026",
+    "description": "A sleek landing page concept with glass panels, soft gradients, and motion that feels premium.",
+    "tags": ["UI", "Landing", "Motion"],
+    "demoUrl": "https://j-devlab.github.io/",
+    "repoUrl": "https://github.com/j-devlab",
+    "image": "./assets/cover-1.jpg"
+  },
+  {
+    "title": "Dashboard Concept",
+    "year": "2026",
+    "description": "A clean dashboard layout built for clarity: hierarchy, spacing, and fast scanning.",
+    "tags": ["UX", "Dashboard", "Frontend"],
+    "demoUrl": "https://example.com",
+    "repoUrl": "https://github.com/j-devlab",
+    "image": "./assets/cover-2.jpg"
+  }
+]
 
