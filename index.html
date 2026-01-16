@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Portfolio of web design and development projects." />
+  <title>j-devlab — Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+
+  <div class="bg">
+    <div class="grain"></div>
+    <div class="glow g1"></div>
+    <div class="glow g2"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="wrap row">
+      <div class="brand">
+        <span class="dot"></span>
+        <span class="name">j-devlab</span>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="pill">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="hero">
+      <div class="wrap">
+        <p class="kicker reveal">Design-minded developer.</p>
+        <h1 class="headline reveal">
+          Sleek, fast, and intentional web experiences.
+        </h1>
+        <p class="subhead reveal">
+          I build modern interfaces with clean UX, smooth motion, and practical engineering.
+          This is my evolving lab — projects ship here as I make them.
+        </p>
+
+        <div class="cta reveal">
+          <a class="btn primary" href="#work">View work</a>
+          <a class="btn" href="https://github.com/j-devlab" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+
+        <div class="stats reveal">
+          <div class="stat">
+            <div class="statNum" id="projectCount">—</div>
+            <div class="statLabel">Projects</div>
+          </div>
+          <div class="stat">
+            <div class="statNum">UI</div>
+            <div class="statLabel">Focused</div>
+          </div>
+          <div class="stat">
+            <div class="statNum">Motion</div>
+            <div class="statLabel">Driven</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="section">
+      <div class="wrap">
+        <div class="sectionHead">
+          <h2 class="title">Selected Work</h2>
+          <div class="controls">
+            <input id="search" class="search" type="search" placeholder="Search projects…" autocomplete="off" />
+            <select id="filter" class="select" aria-label="Filter by tag">
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="grid" class="grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="wrap twoCol">
+        <div class="card reveal">
+          <h2 class="title">About</h2>
+          <p class="muted">
+            I care about polish: typography, spacing, motion, and performance.
+            I like systems-thinking — interfaces that feel effortless and intentional.
+          </p>
+          <div class="chips">
+            <span class="chip">UI / UX</span>
+            <span class="chip">Frontend</span>
+            <span class="chip">Motion</span>
+            <span class="chip">Systems</span>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h2 class="title">Now</h2>
+          <p class="muted">
+            Building a portfolio of designs, experiments, and shippable demos.
+            Each project card links to a live demo (Pages) and/or the repo.
+          </p>
+          <ul class="list">
+            <li>Keep it clean.</li>
+            <li>Keep it fast.</li>
+            <li>Ship relentlessly.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="wrap">
+        <div class="contact card reveal">
+          <h2 class="title">Contact</h2>
+          <p class="muted">Want to collaborate or hire? Reach out.</p>
+          <div class="cta">
+            <a class="btn primary" href="mailto:you@example.com">Email me</a>
+            <a class="btn" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a>
+          </div>
+          <p class="fineprint">
+            Tip: replace the email + LinkedIn URL in <code>index.html</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap row">
+      <span class="muted">© <span id="year"></span> j-devlab</span>
+      <span class="muted">Built with HTML/CSS/JS — deployed on GitHub Pages</span>
+    </div>
+  </footer>
+
+  <template id="cardTemplate">
+    <article class="projCard reveal">
+      <a class="thumb" data-thumblink target="_blank" rel="noreferrer" aria-label="Open project demo">
+        <div class="thumbInner">
+          <img data-thumb alt="" loading="lazy" />
+          <div class="thumbOverlay"></div>
+        </div>
+      </a>
+
+      <div class="projBody">
+        <div class="projTop">
+          <h3 class="projTitle" data-title></h3>
+          <span class="badge" data-year></span>
+        </div>
+        <p class="projDesc" data-desc></p>
+
+        <div class="tagRow" data-tags></div>
+
+        <div class="links">
+          <a class="link" data-demolink target="_blank" rel="noreferrer">Live demo</a>
+          <a class="link" data-repolink target="_blank" rel="noreferrer">Repo</a>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
