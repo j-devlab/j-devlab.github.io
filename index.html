@@ -157,9 +157,7 @@
         }
 
         .logo::before {
-            content: '$ ';
-            color: var(--text-secondary);
-            font-weight: 400;
+            content: '';
         }
 
         .logo::after {
@@ -171,7 +169,7 @@
             width: 8px;
             height: 18px;
             background: var(--accent);
-            opacity: 0;
+            opacity: 1;
             animation: cursor-blink 1.2s step-end infinite;
         }
 
@@ -1145,6 +1143,22 @@
         <div class="loading-text">$ initializing...</div>
     </div>
 
+    <script>
+        // IMMEDIATE hide script - runs right away
+        (function() {
+            setTimeout(function() {
+                var loading = document.getElementById('loadingScreen');
+                if (loading) {
+                    loading.style.opacity = '0';
+                    loading.style.pointerEvents = 'none';
+                    setTimeout(function() {
+                        loading.style.display = 'none';
+                    }, 500);
+                }
+            }, 800);
+        })();
+    </script>
+
     <!-- Background Animation -->
     <div class="bg-animation">
         <div class="orb orb-1"></div>
@@ -1156,7 +1170,7 @@
 
     <!-- Navigation -->
     <nav id="navbar">
-        <a href="#" class="logo">j-devlab</a>
+        <a href="#" class="logo">$jord</a>
         <ul class="nav-links">
             <li><a href="#systems">Systems</a></li>
             <li><a href="#projects">Projects</a></li>
@@ -1589,7 +1603,7 @@
                 <a href="https://github.com/j-devlab" class="contact-link" target="_blank" rel="noopener">
                     <span>GitHub</span>
                 </a>
-                <a href="mailto:contact@example.com" class="contact-link">
+                <a href="/cdn-cgi/l/email-protection#12717d7c6673716652776a737f627e773c717d7f" class="contact-link">
                     <span>Email</span>
                 </a>
                 <a href="https://linkedin.com/in/jordonhowardcyber" class="contact-link" target="_blank" rel="noopener">
@@ -1604,13 +1618,32 @@
         <p>Built with care by Jordon • 2026</p>
     </footer>
 
-    <script>
-        // Loading screen
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Loading screen - multiple triggers for reliability
+        function hideLoadingScreen() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('hidden');
+            }
+        }
+
+        // Try on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(hideLoadingScreen, 500);
+            });
+        } else {
+            // DOM already loaded
+            setTimeout(hideLoadingScreen, 500);
+        }
+
+        // Also try on full page load
         window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 1000);
+            setTimeout(hideLoadingScreen, 600);
         });
+
+        // Failsafe - hide after 1.5 seconds no matter what
+        setTimeout(hideLoadingScreen, 1500);
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1714,8 +1747,4 @@
 
         // Console easter egg
         console.log('%c👋 Hey there!', 'font-size: 20px; font-weight: bold; color: #00ff88;');
-        console.log('%cLooks like you\'re checking out the code. Good instinct.', 'font-size: 14px; color: #9ca3af;');
-        console.log('%cWant to collaborate? Let\'s talk: github.com/j-devlab', 'font-size: 14px; color: #00ccff;');
-    </script>
-</body>
-</html>
+        console.log('%cLooks like you\'re checking out the code. Good instinct.', 'font-size: 14px; color: #9ca3af;
