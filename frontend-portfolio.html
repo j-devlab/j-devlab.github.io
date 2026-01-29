@@ -69,7 +69,7 @@
             color: var(--bg-dark);
         }
 
-        /* Loading Screen */
+        /* Loading Screen - Matching Main Page */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -199,13 +199,42 @@
             transition: all 0.3s ease;
         }
 
-        .logo::before {
-            content: '$ ';
-            color: var(--text-secondary);
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            letter-spacing: -0.5px;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
+        .logo::before {
+            content: '';
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            right: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 18px;
+            background: var(--accent);
+            opacity: 1;
+            animation: cursor-blink 1.2s step-end infinite;
+        }
+
+        .logo:hover::after {
+            animation: none;
+            opacity: 1;
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         .back-link {
@@ -265,6 +294,36 @@
             animation: fadeInUp 0.8s ease-out;
         }
 
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            animation: bounce 2s infinite;
+            z-index: 10;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-purple);
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -320,6 +379,61 @@
             line-height: 1.8;
             opacity: 0;
             animation: fadeInUp 0.8s ease-out 0.6s forwards;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            animation: gradientShift 4s ease infinite, numberPulse 2s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stat-item:hover .stat-number {
+            animation: gradientShift 2s ease infinite, numberPulse 1s ease-in-out infinite;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 8px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .stat-item:hover .stat-label {
+            color: var(--accent-purple);
         }
 
         /* Category Filter */
@@ -465,6 +579,17 @@
             background: var(--bg-card-hover);
         }
 
+        .portfolio-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .portfolio-item:hover .portfolio-image img {
+            transform: scale(1.05);
+        }
+
         .portfolio-image::after {
             content: '';
             position: absolute;
@@ -474,6 +599,7 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .portfolio-item:hover .portfolio-image::after {
@@ -811,7 +937,7 @@
 <body>
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-text">$ loading portfolio...</div>
+        <div class="loading-text">$ initializing...</div>
     </div>
 
     <!-- Background Animation -->
@@ -824,8 +950,8 @@
 
     <!-- Navigation -->
     <nav id="navbar">
-        <a href="./" class="logo">j-devlab</a>
-        <a href="./index.html" class="back-link"><span>← Back to Main</span></a>
+        <a href="./" class="logo">$jord</a>
+        <a href="./portfolio-enhanced.html" class="back-link"><span>← Back to Main</span></a>
     </nav>
 
     <!-- Hero Section -->
@@ -837,6 +963,25 @@
                 Modern web interfaces that balance aesthetics with functionality. Every design decision 
                 serves the user while maintaining technical excellence and performance.
             </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="8">0</span>
+                    <span class="stat-label">Technologies</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Responsive</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
         </div>
     </section>
 
@@ -866,34 +1011,58 @@
 
             <!-- ============================================
                  PROJECT TEMPLATE - Copy this entire block to add a new project
-                 ============================================ -->
+                 ============================================
+                 
+                 HOW TO ADD A PROJECT:
+                 1. Copy everything between these comment markers
+                 2. Paste below, remove the comment tags (remove the surrounding)
+                 3. Update these fields:
+                    - data-category: "dashboard" | "webapp" | "landing" | "component"
+                    - Add your image: Replace the gradient div with <img src="your-image.jpg" alt="Project name">
+                    - OR keep gradient: Use gradient-1 through gradient-9
+                    - Category label: Dashboard | Web Application | Landing Page | Component Library
+                    - Project title
+                    - Description
+                    - Features (3-5 bullet points)
+                    - Technology tags
+                    - Link (optional)
+            ============================================ -->
             <!--
             <div class="portfolio-item" data-category="dashboard">
                 <div class="portfolio-image">
+                    
+                    OPTION 1: Use your own image (recommended for real projects)
+                    <img src="path/to/your/image.jpg" alt="Project Screenshot" style="width: 100%; height: 100%; object-fit: cover;">
+                    
+                    OPTION 2: Use gradient placeholder (for projects without images yet)
                     <div class="image-placeholder gradient-1">
                         <svg class="image-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            Dashboard icon - change path for different icons
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                         </svg>
                     </div>
+                    
                 </div>
                 <div class="portfolio-content">
                     <div class="portfolio-category">Dashboard</div>
-                    <h3>Project Title</h3>
+                    <h3>Your Project Title</h3>
                     <p class="portfolio-description">
-                        Your project description goes here. Explain what the project does and why it matters.
+                        A brief 1-2 sentence description of what this project does and why it's interesting.
+                        Keep it concise and focused on the value it provides.
                     </p>
                     <ul class="portfolio-features">
-                        <li>Feature one</li>
-                        <li>Feature two</li>
-                        <li>Feature three</li>
+                        <li>Key feature one that makes this project stand out</li>
+                        <li>Important technical capability or user benefit</li>
+                        <li>Another noteworthy feature or accomplishment</li>
                     </ul>
                     <div class="portfolio-tags">
                         <span class="portfolio-tag">React</span>
                         <span class="portfolio-tag">TypeScript</span>
-                        <span class="portfolio-tag">Tailwind</span>
+                        <span class="portfolio-tag">Tailwind CSS</span>
+                        <span class="portfolio-tag">Add more as needed</span>
                     </div>
-                    <a href="#" class="portfolio-link">
-                        View Details
+                    <a href="https://your-project-link.com" class="portfolio-link">
+                        View Project
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
@@ -952,13 +1121,54 @@
         // Failsafe - hide after 1.5 seconds no matter what
         setTimeout(hideLoadingScreen, 1500);
 
+        // Animated number counter for hero stats
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000; // 2 seconds
+            const steps = 60;
+            const increment = target / steps;
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (target === 100 ? '%' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (target === 100 ? '%' : '+');
+                }
+            }, duration / steps);
+        }
+
+        // Start counter animation when stats become visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const numbers = entry.target.querySelectorAll('.stat-number');
+                    numbers.forEach((num, index) => {
+                        setTimeout(() => animateCounter(num), index * 200);
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) {
+            statsObserver.observe(heroStats);
+        }
+
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
+                if (scrollIndicator) scrollIndicator.classList.add('hidden');
             } else {
                 navbar.classList.remove('scrolled');
+                if (scrollIndicator) scrollIndicator.classList.remove('hidden');
             }
         });
 
@@ -1018,6 +1228,30 @@
         // Console easter egg
         console.log('%c🎨 Frontend Portfolio', 'font-size: 20px; font-weight: bold; color: #a855f7;');
         console.log('%cLike what you see? Let\'s work together!', 'font-size: 14px; color: #9ca3af;');
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroContent = document.querySelector('.hero-content');
+            if (heroContent && scrolled < window.innerHeight) {
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                heroContent.style.opacity = 1 - (scrolled / 600);
+            }
+        });
+
+        // Add mouse parallax effect to orbs
+        document.addEventListener('mousemove', (e) => {
+            const orbs = document.querySelectorAll('.orb');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            orbs.forEach((orb, index) => {
+                const speed = (index + 1) * 20;
+                const x = (mouseX - 0.5) * speed;
+                const y = (mouseY - 0.5) * speed;
+                orb.style.transform = `translate(${x}px, ${y}px)`;
+            });
+        });
     </script>
 </body>
 </html>
