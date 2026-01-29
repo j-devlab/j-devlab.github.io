@@ -22,6 +22,7 @@
             --accent: #00ff88;
             --accent-dim: #00ff8820;
             --accent-bright: #00ffaa;
+            --accent-secondary: #00ccff;
             --text-primary: #e5e7eb;
             --text-secondary: #9ca3af;
             --text-tertiary: #6b7280;
@@ -44,7 +45,7 @@
             color: var(--bg-dark);
         }
 
-        /* Animated Background */
+        /* Enhanced Animated Background with Multiple Orbs */
         .bg-animation {
             position: fixed;
             top: 0;
@@ -52,40 +53,74 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.4;
+            opacity: 0.35;
+            overflow: hidden;
         }
 
-        .bg-animation::before,
-        .bg-animation::after {
-            content: '';
+        .orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            animation: float 20s ease-in-out infinite;
+            filter: blur(100px);
+            animation: float 25s ease-in-out infinite;
         }
 
-        .bg-animation::before {
+        .orb-1 {
             top: 10%;
-            right: 10%;
+            right: 15%;
             width: 500px;
             height: 500px;
-            background: var(--accent-dim);
+            background: radial-gradient(circle, var(--accent-dim), transparent);
             animation-delay: 0s;
         }
 
-        .bg-animation::after {
-            bottom: 10%;
+        .orb-2 {
+            bottom: 15%;
             left: 10%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.2), transparent);
+            animation-delay: 3s;
+        }
+
+        .orb-3 {
+            top: 40%;
+            left: 45%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(0, 204, 255, 0.15), transparent);
+            animation-delay: 6s;
+        }
+
+        .orb-4 {
+            top: 70%;
+            right: 30%;
             width: 400px;
             height: 400px;
-            background: rgba(102, 126, 234, 0.15);
-            animation-delay: 2s;
+            background: radial-gradient(circle, rgba(118, 75, 162, 0.15), transparent);
+            animation-delay: 9s;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-50px, 50px) scale(0.9); }
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(80px, -80px) scale(1.15) rotate(90deg); }
+            50% { transform: translate(-60px, 60px) scale(0.85) rotate(180deg); }
+            75% { transform: translate(60px, 40px) scale(1.05) rotate(270deg); }
+        }
+
+        /* Grid Pattern Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(var(--accent) 1px, transparent 1px),
+                linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
         }
 
         /* Navigation */
@@ -107,7 +142,7 @@
         nav.scrolled {
             background: rgba(10, 14, 26, 0.95);
             border-bottom-color: var(--border);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
         }
 
         .logo {
@@ -159,7 +194,7 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-secondary);
+            color: var(--accent);
             font-size: 0.9rem;
             font-weight: 500;
             transition: all 0.3s;
@@ -173,23 +208,24 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: var(--accent);
+            background: var(--accent-bright);
             transition: width 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: var(--accent);
+            color: var(--accent-bright);
         }
 
         .nav-links a:hover::before {
             width: 100%;
         }
 
-        /* Hero */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 120px 6% 80px;
             position: relative;
             overflow: hidden;
@@ -197,6 +233,7 @@
 
         .hero-content {
             max-width: 900px;
+            text-align: center;
             position: relative;
             z-index: 1;
             animation: fadeInUp 0.8s ease-out;
@@ -213,76 +250,74 @@
             }
         }
 
-        .hero-label {
+        .hero-greeting {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
             color: var(--accent);
-            margin-bottom: 20px;
+            font-size: 1rem;
             font-weight: 500;
-            display: inline-block;
-            animation: fadeInUp 0.8s ease-out 0.2s both;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
         }
 
-        .hero-label::before {
-            content: '> ';
-            color: var(--accent-bright);
+        .hero-greeting::before {
+            content: '// ';
+            color: var(--text-tertiary);
         }
 
         .hero-title {
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 700;
             line-height: 1.1;
-            margin-bottom: 28px;
-            animation: fadeInUp 0.8s ease-out 0.3s both;
-        }
-
-        .hero-title .gradient {
-            background: var(--gradient-1);
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-bright));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            display: inline-block;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
         }
 
         .hero-subtitle {
-            font-size: 1.4rem;
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
             color: var(--text-secondary);
-            margin-bottom: 24px;
-            font-weight: 500;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
-        }
-
-        .hero-description {
-            font-size: 1.15rem;
-            color: var(--text-tertiary);
             margin-bottom: 40px;
-            max-width: 650px;
-            line-height: 1.8;
-            animation: fadeInUp 0.8s ease-out 0.5s both;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.6s forwards;
         }
 
-        .hero-cta {
+        .hero-buttons {
             display: flex;
-            gap: 16px;
+            gap: 20px;
+            justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.8s forwards;
         }
 
         .btn {
-            padding: 16px 36px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            padding: 14px 32px;
+            border-radius: 8px;
             text-decoration: none;
-            border-radius: 10px;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            display: inline-block;
         }
 
-        .btn::before {
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-primary::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -290,108 +325,158 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--accent-bright);
             transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            transition: width 0.4s ease, height 0.4s ease;
         }
 
-        .btn:hover::before {
+        .btn-primary:hover::before {
             width: 300px;
             height: 300px;
         }
 
-        .btn span {
+        .btn-primary span {
             position: relative;
             z-index: 1;
         }
 
-        .btn-primary {
-            background: var(--accent);
-            color: var(--bg-dark);
-        }
-
         .btn-primary:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px var(--accent-dim);
         }
 
         .btn-secondary {
             background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--border);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-dim);
+            transition: left 0.4s ease;
+        }
+
+        .btn-secondary:hover::before {
+            left: 0;
+        }
+
+        .btn-secondary span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
+            color: var(--accent-bright);
+            border-color: var(--accent-bright);
             transform: translateY(-2px);
         }
 
-        /* Section Styles */
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-20px); }
+            60% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent);
+        }
+
+        /* Section Styling */
         section {
-            padding: 120px 6%;
-            position: relative;
-        }
-
-        section:not(.hero) {
-            border-top: 1px solid transparent;
-        }
-
-        section:not(.hero):not(:last-of-type) {
-            border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+            padding: 100px 6%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
         .section-label {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
             color: var(--accent);
-            margin-bottom: 16px;
+            font-size: 0.9rem;
             font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .section-label::before {
+            content: '// ';
+            color: var(--text-tertiary);
         }
 
         .section-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 700;
             margin-bottom: 20px;
-            background: var(--gradient-1);
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .section-description {
-            font-size: 1.15rem;
             color: var(--text-secondary);
+            font-size: 1.1rem;
             max-width: 700px;
             margin: 0 auto;
-            line-height: 1.85;
+            line-height: 1.8;
         }
 
-        /* Projects Grid */
+        /* Projects Section - Now with Bullet Points */
+        .projects-intro {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 0 10%;
+        }
+
+        .projects-intro p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
 
         .project-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .project-card::before {
@@ -399,8 +484,8 @@
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            height: 4px;
+            width: 100%;
+            height: 3px;
             background: var(--gradient-1);
             transform: scaleX(0);
             transform-origin: left;
@@ -412,318 +497,112 @@
         }
 
         .project-card:hover {
-            transform: translateY(-12px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.1);
             background: var(--bg-card-hover);
+            border-color: var(--accent-dim);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
         }
 
-        .project-image {
-            height: 220px;
-            background: linear-gradient(135deg, var(--accent-dim), rgba(102, 126, 234, 0.1));
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: var(--accent-dim);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--accent);
-            font-family: 'JetBrains Mono', monospace;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
-        .project-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .project-card:hover .project-icon {
+            background: var(--accent);
+            transform: scale(1.1) rotate(5deg);
         }
 
-        .project-card:hover .project-image::after {
-            opacity: 0.1;
+        .project-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent);
+            transition: stroke 0.3s ease;
         }
 
-        .project-content {
-            padding: 32px;
+        .project-card:hover .project-icon svg {
+            stroke: var(--bg-dark);
         }
 
-        .project-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 18px;
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 16px;
             color: var(--text-primary);
-            transition: color 0.3s ease;
-            line-height: 1.3;
-        }
-
-        .project-card:hover .project-title {
-            color: var(--accent);
         }
 
         .project-description {
             color: var(--text-secondary);
-            line-height: 1.75;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
+            line-height: 1.7;
             font-size: 0.95rem;
+        }
+
+        .project-examples {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .project-examples li {
+            color: var(--text-secondary);
+            padding-left: 24px;
+            margin-bottom: 12px;
+            position: relative;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .project-examples li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .project-examples li:hover {
+            color: var(--text-primary);
         }
 
         .project-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 24px;
+            gap: 8px;
+            margin-top: 20px;
         }
 
-        .tag {
-            padding: 6px 14px;
+        .project-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 6px 12px;
             background: var(--accent-dim);
             color: var(--accent);
             border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
             border: 1px solid transparent;
             transition: all 0.3s ease;
         }
 
-        .tag:hover {
-            background: var(--accent);
-            color: var(--bg-dark);
+        .project-card:hover .project-tag {
             border-color: var(--accent);
-        }
-
-        .project-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .project-link {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .project-link:hover {
-            color: var(--accent);
-            transform: translateX(4px);
+            background: transparent;
         }
 
         /* Skills Section */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
         }
 
         .skill-category {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-category::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .skill-category:hover::before {
-            transform: scaleX(1);
-        }
-
-        .skill-category:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.08);
-            background: var(--bg-card-hover);
-        }
-
-        .skill-category h3 {
-            font-size: 1.6rem;
-            margin-bottom: 28px;
-            color: var(--accent);
-            font-weight: 700;
-        }
-
-        .skill-list {
-            list-style: none;
-        }
-
-        .skill-list li {
-            padding: 12px 0;
-            color: var(--text-secondary);
-            font-size: 1rem;
-            position: relative;
-            padding-left: 28px;
-            transition: all 0.3s ease;
-        }
-
-        .skill-list li::before {
-            content: '▹';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-            font-size: 1.2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .skill-list li:hover {
-            color: var(--text-primary);
-            padding-left: 32px;
-        }
-
-        .skill-list li:hover::before {
-            transform: translateX(4px);
-        }
-
-        /* Approach Section */
-        #approach {
-            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(17, 24, 39, 0.5) 100%);
-        }
-
-        .approach-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .approach-grid {
-            display: grid;
-            gap: 40px;
-            margin-top: 60px;
-        }
-
-        .approach-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 44px;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .approach-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--gradient-1);
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 0.4s ease;
-        }
-
-        .approach-item:hover::before {
-            transform: scaleY(1);
-        }
-
-        .approach-item:hover {
-            border-color: var(--accent);
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.08);
-            background: var(--bg-card-hover);
-            transform: translateX(8px);
-        }
-
-        .approach-item h3 {
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .approach-item p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.05rem;
-        }
-
-        /* Experience Timeline */
-        #experience {
-            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(17, 24, 39, 0.5) 100%);
-        }
-
-        .timeline {
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--border);
-            transform: translateX(-50%);
-        }
-
-        .timeline-item {
-            margin-bottom: 60px;
-            position: relative;
-            width: calc(50% - 40px);
-            animation: fadeInUp 0.8s ease-out both;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-            text-align: right;
-            padding-right: 40px;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: calc(50% + 40px);
-            text-align: left;
-            padding-left: 40px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 50%;
-            top: 0;
-            border: 4px solid var(--bg-dark);
-            box-shadow: 0 0 20px var(--accent-dim);
-        }
-
-        .timeline-item:nth-child(odd)::before {
-            right: -10px;
-        }
-
-        .timeline-item:nth-child(even)::before {
-            left: -10px;
-        }
-
-        .timeline-content {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -731,72 +610,199 @@
             transition: all 0.3s ease;
         }
 
+        .skill-category:hover {
+            border-color: var(--accent-dim);
+            background: var(--bg-card-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.08);
+        }
+
+        .skill-category h3 {
+            color: var(--accent);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-item {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+            background: var(--accent-dim);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            transform: scale(1.05);
+        }
+
+        /* Approach Section */
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
+        }
+
+        .approach-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .approach-item:hover {
+            background: var(--bg-card-hover);
+            border-left-color: var(--accent-bright);
+            transform: translateX(5px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.08);
+        }
+
+        .approach-item h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .approach-item p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 60px auto 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: calc(50% + 40px);
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: calc(50% + 40px);
+            text-align: right;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 28px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
         .timeline-content:hover {
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+            background: var(--bg-card-hover);
+            border-color: var(--accent-dim);
             transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
         }
 
         .timeline-date {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
             color: var(--accent);
+            font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 12px;
         }
 
         .timeline-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 8px;
             color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 600;
         }
 
         .timeline-company {
-            font-size: 1rem;
             color: var(--text-secondary);
+            font-size: 0.95rem;
             margin-bottom: 16px;
             font-weight: 500;
         }
 
         .timeline-description {
-            color: var(--text-tertiary);
+            color: var(--text-secondary);
             line-height: 1.7;
             font-size: 0.95rem;
         }
 
-        /* Contact Section */
-        #contact {
-            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(17, 24, 39, 0.5) 100%);
+        /* Timeline Dots */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--bg-dark);
+            z-index: 2;
+            transition: all 0.3s ease;
         }
 
+        .timeline-item:hover::before {
+            background: var(--accent-bright);
+            box-shadow: 0 0 20px var(--accent);
+            transform: translateX(-50%) scale(1.3);
+        }
+
+        /* Contact Section */
         .contact-section {
             text-align: center;
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
         .contact-links {
             display: flex;
             justify-content: center;
-            gap: 24px;
+            gap: 20px;
+            margin-top: 40px;
             flex-wrap: wrap;
-            margin-top: 50px;
         }
 
         .contact-link {
-            padding: 18px 36px;
+            padding: 14px 32px;
             background: var(--bg-card);
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 8px;
             text-decoration: none;
             color: var(--text-primary);
             font-weight: 600;
-            font-size: 1rem;
             transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
             position: relative;
             overflow: hidden;
         }
@@ -808,9 +814,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--gradient-1);
+            background: var(--accent-dim);
             transition: left 0.4s ease;
-            z-index: 0;
         }
 
         .contact-link span {
@@ -818,15 +823,15 @@
             z-index: 1;
         }
 
-        .contact-link:hover {
-            border-color: var(--accent);
-            color: var(--bg-dark);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.2);
-        }
-
         .contact-link:hover::before {
             left: 0;
+        }
+
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent-bright);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.15);
         }
 
         /* Footer */
@@ -834,522 +839,679 @@
             text-align: center;
             padding: 40px 6%;
             border-top: 1px solid var(--border);
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             font-size: 0.9rem;
         }
 
-        footer p {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            animation: bounce 2s infinite;
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-indicator.visible {
-            opacity: 1;
-        }
-
-        .scroll-indicator::after {
-            content: '↓';
-            font-size: 1.5rem;
-            color: var(--accent);
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-5px);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 968px) {
-            .timeline::before {
-                left: 30px;
-            }
-
-            .timeline-item,
-            .timeline-item:nth-child(odd),
-            .timeline-item:nth-child(even) {
-                width: 100%;
-                left: 0;
-                text-align: left;
-                padding-left: 80px;
-                padding-right: 0;
-            }
-
-            .timeline-item::before,
-            .timeline-item:nth-child(odd)::before,
-            .timeline-item:nth-child(even)::before {
-                left: 20px;
-            }
-        }
-
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             nav {
                 padding: 16px 5%;
-                flex-direction: column;
-                gap: 16px;
-                align-items: center;
-            }
-
-            .logo {
-                font-size: 1.1rem;
             }
 
             .nav-links {
-                gap: 28px;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-links a {
-                font-size: 0.9rem;
+                gap: 20px;
             }
 
             .hero {
-                padding: 140px 5% 60px;
+                padding: 100px 5% 60px;
             }
 
             .hero-title {
-                margin-bottom: 24px;
+                font-size: 2rem;
             }
 
             .hero-subtitle {
-                font-size: 1.25rem;
-                margin-bottom: 20px;
-            }
-
-            .hero-description {
-                font-size: 1.05rem;
-                margin-bottom: 36px;
+                font-size: 1rem;
             }
 
             section {
-                padding: 80px 5%;
-            }
-
-            .section-header {
-                margin-bottom: 50px;
-            }
-
-            .section-title {
-                margin-bottom: 18px;
-            }
-
-            .section-description {
-                font-size: 1.05rem;
+                padding: 60px 5%;
             }
 
             .projects-grid {
                 grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .project-card {
-                border-radius: 14px;
-            }
-
-            .project-content {
-                padding: 28px;
-            }
-
-            .project-title {
-                font-size: 1.35rem;
-                margin-bottom: 16px;
-            }
-
-            .project-description {
-                font-size: 0.92rem;
-                line-height: 1.7;
-                margin-bottom: 24px;
             }
 
             .skills-grid {
                 grid-template-columns: 1fr;
-                gap: 28px;
-            }
-
-            .skill-category {
-                padding: 36px;
-            }
-
-            .skill-category h3 {
-                font-size: 1.45rem;
-                margin-bottom: 24px;
             }
 
             .approach-grid {
-                gap: 28px;
+                grid-template-columns: 1fr;
             }
 
-            .approach-item {
-                padding: 36px;
+            .timeline::before {
+                left: 0;
             }
 
-            .approach-item h3 {
-                font-size: 1.35rem;
-                margin-bottom: 14px;
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding-left: 40px;
+                padding-right: 0;
+                text-align: left;
             }
 
-            .approach-item p {
-                font-size: 1rem;
-                line-height: 1.75;
+            .timeline-item::before {
+                left: 0;
+                transform: translateX(0);
             }
 
-            .timeline-content {
-                padding: 24px;
-            }
-
-            .timeline-title {
-                font-size: 1.2rem;
-            }
-
-            .timeline-description {
-                font-size: 0.92rem;
-                line-height: 1.7;
-            }
-
-            .contact-links {
+            .hero-buttons {
                 flex-direction: column;
-                align-items: stretch;
-                gap: 16px;
-            }
-
-            .contact-link {
-                width: 100%;
-                justify-content: center;
-                padding: 16px 32px;
+                align-items: center;
             }
 
             .btn {
-                padding: 14px 30px;
+                width: 100%;
+                max-width: 280px;
+                text-align: center;
             }
+        }
 
-            footer {
-                padding: 36px 5%;
-                font-size: 0.85rem;
+        /* Particle Effect on Mouse Move */
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9999;
+        }
+
+        @keyframes particleFade {
+            0% {
+                opacity: 1;
+                transform: scale(1);
             }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        /* Shimmer effect only on project cards */
+        .project-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 136, 0.08),
+                transparent
+            );
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .project-card:hover::after {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+
+        @keyframes shimmer {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .project-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Subtle glow effect on cards */
+        .skill-category::after,
+        .approach-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            background: radial-gradient(
+                circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+                rgba(0, 255, 136, 0.08),
+                transparent 50%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .skill-category:hover::after,
+        .approach-item:hover::after {
+            opacity: 1;
+        }
+
+        .skill-category > *,
+        .approach-item > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Gradient border animation */
+        @keyframes rotateBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .contact-link {
+            background: var(--bg-card);
+            background-size: 200% 200%;
+            animation: rotateBorder 3s ease infinite;
+        }
+
+        /* Text gradient animation */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .section-title {
+            background: linear-gradient(
+                90deg,
+                var(--text-primary),
+                var(--accent),
+                var(--accent-secondary),
+                var(--text-primary)
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 8s ease infinite;
         }
 
         /* Loading Animation */
-        .fade-in {
-            animation: fadeIn 0.6s ease-out;
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent);
+            font-size: 1.2rem;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Performance optimizations */
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .orb,
+        .particle,
+        .project-card::before,
+        .project-card::after {
+            will-change: transform, opacity;
+        }
+
+        /* Enhanced mobile optimization */
+        @media (max-width: 768px) {
+            /* Reduce animation complexity on mobile */
+            .orb {
+                animation-duration: 30s;
+                filter: blur(80px);
             }
-            to {
-                opacity: 1;
+
+            .bg-animation {
+                opacity: 0.2;
+            }
+
+            /* Disable particle effects on mobile for performance */
+            .particle {
+                display: none;
+            }
+
+            /* Simplify effects on mobile */
+            .project-card::after,
+            .skill-category::after,
+            .approach-item::after {
+                display: none;
+            }
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .orb,
+            .particle {
+                animation: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">$ initializing...</div>
+    </div>
+
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="orb orb-4"></div>
+    </div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navigation -->
     <nav id="navbar">
-        <a href="#" class="logo">jordon</a>
+        <a href="#" class="logo">j-devlab</a>
         <ul class="nav-links">
-            <li><a href="#work">Work</a></li>
-            <li><a href="#capabilities">Capabilities</a></li>
+            <li><a href="#systems">Systems</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
             <li><a href="#approach">Approach</a></li>
+            <li><a href="#experience">Experience</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
 
-    <div class="scroll-indicator visible">Scroll</div>
-
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-label">systems_engineer.init()</div>
-            <h1 class="hero-title">
-                I'm <span class="gradient">Jordon</span>
-            </h1>
-            <p class="hero-subtitle">Security & Automation Engineer</p>
-            <p class="hero-description">
-                I build and secure infrastructure that people depend on. My work spans security hardening, 
-                cloud systems, and automation — with a long view toward how small decisions shape reliability, 
-                risk, and the quality of what gets built. I care about clarity in systems and interfaces alike.
+            <div class="hero-greeting">Hello, I'm Jordon Howard</div>
+            <h1 class="hero-title">Security & Systems Engineer</h1>
+            <p class="hero-subtitle">
+                I build secure, reliable systems that scale. Focused on infrastructure, automation, 
+                and the engineering decisions that accumulate into resilience over time.
             </p>
-            <div class="hero-cta">
-                <a href="#work" class="btn btn-primary">
-                    <span>See My Work</span>
-                </a>
-                <a href="#contact" class="btn btn-secondary">
-                    <span>Get In Touch</span>
-                </a>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary"><span>View My Work</span></a>
+                <a href="./frontend-portfolio.html" class="btn btn-primary"><span>My Portfolio</span></a>
+                <a href="#contact" class="btn btn-primary"><span>Get In Touch</span></a>
+            </div>
+        </div>
+        <div class="scroll-indicator" id="scrollIndicator">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Systems I Work On Section -->
+    <section id="systems" style="padding-top: 80px; padding-bottom: 60px;">
+        <div class="section-header">
+            <div class="section-label">// Overview</div>
+            <h2 class="section-title">Systems I Work On</h2>
+            <div class="projects-intro">
+                <p style="max-width: 800px; margin: 0 auto;">
+                    Representative examples of the kinds of systems I work on — patterns of thinking about 
+                    security, infrastructure, and long-term reliability that apply across contexts.
+                </p>
+            </div>
+        </div>
+        <div class="approach-grid" style="margin-top: 40px;">
+            <div class="approach-item">
+                <h3>Security-First Infrastructure</h3>
+                <p>
+                    Zero-trust architectures, automated threat detection, intrusion prevention systems, 
+                    and defense-in-depth strategies implemented across cloud and on-premise environments.
+                </p>
+            </div>
+            <div class="approach-item">
+                <h3>Scalable Cloud Systems</h3>
+                <p>
+                    Multi-region deployments, containerized microservices, serverless architectures, 
+                    and infrastructure-as-code for reproducible, version-controlled environments.
+                </p>
+            </div>
+            <div class="approach-item">
+                <h3>Automated Operations</h3>
+                <p>
+                    CI/CD pipelines, configuration management, self-healing systems, automated compliance 
+                    validation, and intelligent monitoring with context-aware alerting.
+                </p>
+            </div>
+            <div class="approach-item">
+                <h3>Penetration Testing & Audits</h3>
+                <p>
+                    Network and application security assessments, vulnerability research, exploit development, 
+                    social engineering testing, and actionable remediation strategies.
+                </p>
             </div>
         </div>
     </section>
 
-    <section id="work">
+    <!-- Projects Section -->
+    <section id="projects">
         <div class="section-header">
-            <div class="section-label">// Selected Work</div>
-            <h2 class="section-title">Projects & Systems</h2>
+            <div class="section-label">// Recent Work</div>
+            <h2 class="section-title">Featured Projects</h2>
             <p class="section-description">
-                Representative examples of the kinds of systems I work on — patterns of thinking 
-                about security, infrastructure, and long-term reliability that apply across contexts.
+                Selected examples of production systems, security implementations, and infrastructure 
+                projects that demonstrate practical applications of the work I do.
             </p>
         </div>
         <div class="projects-grid">
             <div class="project-card">
-                <div class="project-image">01</div>
-                <div class="project-content">
-                    <h3 class="project-title">Security Automation Platform</h3>
-                    <p class="project-description">
-                        Representative of my work building AI-powered security workflows — systems that reduce 
-                        manual analysis time while maintaining accuracy across vulnerability assessment, reporting, 
-                        and remediation patterns that recur across client environments.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">LLM Integration</span>
-                        <span class="tag">Security Tools</span>
-                        <span class="tag">Automation</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Case Study →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h3>Security Infrastructure</h3>
+                <p class="project-description">
+                    Hardening production environments, implementing defense-in-depth strategies, and building 
+                    systems resilient to real-world attacks.
+                </p>
+                <ul class="project-examples">
+                    <li>Zero-trust network architectures for multi-cloud environments</li>
+                    <li>Automated security scanning pipelines with custom rule sets</li>
+                    <li>Intrusion detection systems tuned for low false-positive rates</li>
+                    <li>Credential rotation and secrets management at scale</li>
+                    <li>Incident response automation and forensics tooling</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">Zero Trust</span>
+                    <span class="project-tag">Cloudflare</span>
+                    <span class="project-tag">SIEM</span>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">02</div>
-                <div class="project-content">
-                    <h3 class="project-title">Infrastructure Hardening</h3>
-                    <p class="project-description">
-                        Reflects ongoing penetration testing and secure architecture work across cloud environments. 
-                        The kind of systems thinking that identifies structural vulnerabilities, not just individual 
-                        misconfigurations — and designs remediation that improves resilience long-term.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">AWS</span>
-                        <span class="tag">Penetration Testing</span>
-                        <span class="tag">Threat Modeling</span>
-                        <span class="tag">IAM</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Details →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                    </svg>
+                </div>
+                <h3>Infrastructure Automation</h3>
+                <p class="project-description">
+                    Reducing operational overhead through intelligent automation while maintaining control, 
+                    visibility, and the ability to respond when systems deviate.
+                </p>
+                <ul class="project-examples">
+                    <li>Infrastructure-as-code for reproducible, version-controlled deployments</li>
+                    <li>CI/CD pipelines with automated testing and rollback capabilities</li>
+                    <li>Self-healing systems with intelligent failure recovery</li>
+                    <li>Configuration management across heterogeneous environments</li>
+                    <li>Automated compliance validation and reporting</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">Terraform</span>
+                    <span class="project-tag">Ansible</span>
+                    <span class="project-tag">CI/CD</span>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">03</div>
-                <div class="project-content">
-                    <h3 class="project-title">Platform Operations</h3>
-                    <p class="project-description">
-                        Example of systems built and operated under real commercial constraints — PCI compliance, 
-                        transaction reliability, inventory automation. Full ownership from architecture through 
-                        customer support teaches what actually matters when things break at scale.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">PCI Compliance</span>
-                        <span class="tag">Backend Systems</span>
-                        <span class="tag">Automation</span>
-                        <span class="tag">Operations</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Overview →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <h3>Monitoring & Observability</h3>
+                <p class="project-description">
+                    Building visibility into system behavior that enables quick diagnosis, informed decisions, 
+                    and proactive problem resolution.
+                </p>
+                <ul class="project-examples">
+                    <li>Distributed tracing across microservices architectures</li>
+                    <li>Custom metrics collection for business-critical workflows</li>
+                    <li>Intelligent alerting with context-aware thresholds</li>
+                    <li>Performance monitoring and capacity planning tools</li>
+                    <li>Log aggregation and analysis pipelines</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">Prometheus</span>
+                    <span class="project-tag">Grafana</span>
+                    <span class="project-tag">ELK</span>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">04</div>
-                <div class="project-content">
-                    <h3 class="project-title">Network Architecture</h3>
-                    <p class="project-description">
-                        Typical of defense-in-depth work redesigning network segmentation and access controls. 
-                        The goal isn't just fixing configurations — it's understanding how architecture shapes 
-                        attack surface and building layers that degrade gracefully under pressure.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">Network Security</span>
-                        <span class="tag">Firewalls</span>
-                        <span class="tag">Defense-in-Depth</span>
-                        <span class="tag">Architecture</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Technical Details →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                <h3>Penetration Testing</h3>
+                <p class="project-description">
+                    Finding vulnerabilities before attackers do, with realistic threat modeling and actionable 
+                    remediation guidance.
+                </p>
+                <ul class="project-examples">
+                    <li>External and internal network penetration testing</li>
+                    <li>Web application security assessments (OWASP methodology)</li>
+                    <li>Social engineering and phishing simulations</li>
+                    <li>Cloud infrastructure security audits (AWS, Azure, GCP)</li>
+                    <li>Custom exploit development and proof-of-concept demonstrations</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">OWASP</span>
+                    <span class="project-tag">Metasploit</span>
+                    <span class="project-tag">Burp Suite</span>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">05</div>
-                <div class="project-content">
-                    <h3 class="project-title">Monitoring & Observability</h3>
-                    <p class="project-description">
-                        Represents work building SIEM infrastructure and designing alerting that surfaces meaningful 
-                        signal. Good monitoring isn't about collecting everything — it's about understanding what 
-                        operators need to know, when, and how to present it without noise.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">SIEM</span>
-                        <span class="tag">ELK Stack</span>
-                        <span class="tag">Incident Response</span>
-                        <span class="tag">Monitoring</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Approach →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                    </svg>
+                </div>
+                <h3>API & Backend Systems</h3>
+                <p class="project-description">
+                    Designing APIs and backend services that are secure by default, performant under load, 
+                    and maintainable over years.
+                </p>
+                <ul class="project-examples">
+                    <li>RESTful and GraphQL API design with authentication and rate limiting</li>
+                    <li>Microservices architectures with proper service boundaries</li>
+                    <li>Database optimization and schema design for scale</li>
+                    <li>Asynchronous task processing and job queues</li>
+                    <li>API security: OAuth2, JWT, and custom auth solutions</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">Python</span>
+                    <span class="project-tag">Node.js</span>
+                    <span class="project-tag">PostgreSQL</span>
                 </div>
             </div>
 
             <div class="project-card">
-                <div class="project-image">06</div>
-                <div class="project-content">
-                    <h3 class="project-title">Internal Tooling</h3>
-                    <p class="project-description">
-                        Examples of operational tools built to reduce repetitive work and cognitive load — 
-                        deployment automation, security documentation generators, diagnostic scripts. 
-                        Good tools don't just work, they communicate intent and fail informatively.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">Bash</span>
-                        <span class="tag">APIs</span>
-                        <span class="tag">UX</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link">Examples →</a>
-                    </div>
+                <div class="project-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                    </svg>
+                </div>
+                <h3>Cloud Architecture</h3>
+                <p class="project-description">
+                    Architecting cloud infrastructure that balances cost, performance, security, and operational 
+                    simplicity for long-term sustainability.
+                </p>
+                <ul class="project-examples">
+                    <li>Multi-region deployments with automated failover</li>
+                    <li>Containerized applications with Kubernetes orchestration</li>
+                    <li>Serverless architectures for event-driven workloads</li>
+                    <li>Cloud cost optimization and resource rightsizing</li>
+                    <li>Hybrid cloud integration and migration strategies</li>
+                </ul>
+                <div class="project-tags">
+                    <span class="project-tag">AWS</span>
+                    <span class="project-tag">Docker</span>
+                    <span class="project-tag">Kubernetes</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="capabilities">
+    <!-- Skills Section -->
+    <section id="skills">
         <div class="section-header">
-            <div class="section-label">// Technical Range</div>
-            <h2 class="section-title">Capabilities</h2>
+            <div class="section-label">// Technical Stack</div>
+            <h2 class="section-title">Skills & Technologies</h2>
             <p class="section-description">
-                The tools and disciplines I work with regularly — always evolving, always grounded 
-                in what's needed to build systems that hold up over time.
+                Tools and technologies I work with regularly, chosen for reliability, maintainability, 
+                and proven performance in production environments.
             </p>
         </div>
         <div class="skills-grid">
             <div class="skill-category">
-                <h3>Security & Operations</h3>
-                <ul class="skill-list">
-                    <li>Penetration Testing & Red Team Work</li>
-                    <li>Vulnerability Assessment & Remediation</li>
-                    <li>Threat Modeling & Risk Analysis</li>
-                    <li>Secure Architecture Design</li>
-                    <li>IAM & Access Control</li>
-                    <li>SIEM & Security Monitoring</li>
-                    <li>Incident Response</li>
-                    <li>Compliance Frameworks (PCI, OWASP)</li>
-                </ul>
+                <h3>Security & Testing</h3>
+                <div class="skill-list">
+                    <span class="skill-item">Penetration Testing</span>
+                    <span class="skill-item">SIEM</span>
+                    <span class="skill-item">IDS/IPS</span>
+                    <span class="skill-item">Threat Modeling</span>
+                    <span class="skill-item">Incident Response</span>
+                    <span class="skill-item">Security Auditing</span>
+                </div>
             </div>
 
             <div class="skill-category">
                 <h3>Infrastructure & Cloud</h3>
-                <ul class="skill-list">
-                    <li>AWS (IAM, EC2, S3, Security)</li>
-                    <li>Azure (AD, Security Center)</li>
-                    <li>Linux Administration (RedHat, Kali)</li>
-                    <li>Windows Server Hardening</li>
-                    <li>Container Security (Docker)</li>
-                    <li>Network Architecture & Firewalls</li>
-                    <li>CDN & Edge Security (Cloudflare)</li>
-                    <li>Virtualization (VMware, Hyper-V)</li>
-                </ul>
+                <div class="skill-list">
+                    <span class="skill-item">AWS</span>
+                    <span class="skill-item">Azure</span>
+                    <span class="skill-item">GCP</span>
+                    <span class="skill-item">Docker</span>
+                    <span class="skill-item">Kubernetes</span>
+                    <span class="skill-item">Terraform</span>
+                    <span class="skill-item">Ansible</span>
+                    <span class="skill-item">Linux</span>
+                    <span class="skill-item">Cloudflare</span>
+                </div>
             </div>
 
             <div class="skill-category">
-                <h3>Automation & Development</h3>
-                <ul class="skill-list">
-                    <li>Python & Bash Scripting</li>
-                    <li>LLM Integration & AI Workflows</li>
-                    <li>API Design & Integration</li>
-                    <li>Git & Version Control</li>
-                    <li>Security Tooling (Kali, Metasploit, Burp)</li>
-                    <li>SQL & Database Fundamentals</li>
-                    <li>Web Technologies (HTML/CSS/JS)</li>
-                    <li>Documentation & Reporting Automation</li>
-                </ul>
+                <h3>Development</h3>
+                <div class="skill-list">
+                    <span class="skill-item">Python</span>
+                    <span class="skill-item">JavaScript</span>
+                    <span class="skill-item">Node.js</span>
+                    <span class="skill-item">Bash</span>
+                    <span class="skill-item">Go</span>
+                    <span class="skill-item">SQL</span>
+                    <span class="skill-item">Git</span>
+                    <span class="skill-item">REST APIs</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3>Monitoring & DevOps</h3>
+                <div class="skill-list">
+                    <span class="skill-item">Prometheus</span>
+                    <span class="skill-item">Grafana</span>
+                    <span class="skill-item">ELK Stack</span>
+                    <span class="skill-item">CI/CD</span>
+                    <span class="skill-item">Jenkins</span>
+                    <span class="skill-item">GitLab</span>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Approach Section -->
     <section id="approach">
         <div class="section-header">
             <div class="section-label">// Philosophy</div>
-            <h2 class="section-title">How I Work</h2>
+            <h2 class="section-title">How I Approach Work</h2>
             <p class="section-description">
-                Some principles that shape how I think about building and operating systems — 
-                learned through practice and refined over time.
+                Principles that guide how I think about building and securing systems — learned from 
+                real failures, operational constraints, and years of hands-on work.
             </p>
         </div>
-        <div class="approach-content">
-            <div class="approach-grid">
-                <div class="approach-item">
-                    <h3>Small decisions compound</h3>
-                    <p>
-                        Security, performance, and maintainability aren't big dramatic moments — they're the result 
-                        of hundreds of small technical choices made consistently well. I pay attention to the details 
-                        that accumulate into reliability or risk over time.
-                    </p>
-                </div>
+        <div class="approach-grid">
+            <div class="approach-item">
+                <h3>Small decisions compound</h3>
+                <p>
+                    Most system failures aren't dramatic explosions — they're the accumulated weight 
+                    of hundreds of small technical choices made consistently well. I pay attention to the details 
+                    that accumulate into reliability or risk over time.
+                </p>
+            </div>
 
-                <div class="approach-item">
-                    <h3>Clarity is infrastructure</h3>
-                    <p>
-                        Whether it's code, documentation, or an interface someone has to use at 3am during an incident, 
-                        clarity matters. Good systems communicate what they're doing and why. Complexity should serve 
-                        a purpose, not hide confusion.
-                    </p>
-                </div>
+            <div class="approach-item">
+                <h3>Clarity is infrastructure</h3>
+                <p>
+                    Whether it's code, documentation, or an interface someone has to use at 3am during an incident, 
+                    clarity matters. Good systems communicate what they're doing and why. Complexity should serve 
+                    a purpose, not hide confusion.
+                </p>
+            </div>
 
-                <div class="approach-item">
-                    <h3>Build for the long term</h3>
-                    <p>
-                        Real systems outlive their initial requirements. I design with that in mind — making tradeoffs 
-                        that account for scale, change, and the people who'll maintain what I build. Good architecture 
-                        ages gracefully.
-                    </p>
-                </div>
+            <div class="approach-item">
+                <h3>Build for the long term</h3>
+                <p>
+                    Real systems outlive their initial requirements. I design with that in mind — making tradeoffs 
+                    that account for scale, change, and the people who'll maintain what I build. Good architecture 
+                    ages gracefully.
+                </p>
+            </div>
 
-                <div class="approach-item">
-                    <h3>Defense in depth, thoughtfully applied</h3>
-                    <p>
-                        Security isn't a checklist. It's about understanding how systems fail, where attackers look, 
-                        and building layered protections that make sense for the actual threats and constraints. 
-                        Every environment is different.
-                    </p>
-                </div>
+            <div class="approach-item">
+                <h3>Defense in depth, thoughtfully applied</h3>
+                <p>
+                    Security isn't a checklist. It's about understanding how systems fail, where attackers look, 
+                    and building layered protections that make sense for the actual threats and constraints. 
+                    Every environment is different.
+                </p>
             </div>
         </div>
     </section>
 
+    <!-- Experience Section -->
     <section id="experience">
         <div class="section-header">
             <div class="section-label">// Background</div>
@@ -1414,6 +1576,7 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
     <section id="contact">
         <div class="contact-section">
             <div class="section-label">// Connect</div>
@@ -1426,7 +1589,7 @@
                 <a href="https://github.com/j-devlab" class="contact-link" target="_blank" rel="noopener">
                     <span>GitHub</span>
                 </a>
-                <a href="/cdn-cgi/l/email-protection#83e9ecf1e7ecedebb1b5b7c3e4eee2eaefade0ecee" class="contact-link">
+                <a href="mailto:contact@example.com" class="contact-link">
                     <span>Email</span>
                 </a>
                 <a href="https://linkedin.com/in/jordonhowardcyber" class="contact-link" target="_blank" rel="noopener">
@@ -1436,12 +1599,20 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer>
         <p>Built with care by Jordon • 2026</p>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Smooth scrolling with offset for fixed navbar
+    <script>
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1000);
+        });
+
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1459,15 +1630,15 @@
 
         // Navbar scroll effect
         const navbar = document.getElementById('navbar');
-        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const scrollIndicator = document.getElementById('scrollIndicator');
         
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 navbar.classList.add('scrolled');
-                scrollIndicator.classList.remove('visible');
+                scrollIndicator.classList.add('hidden');
             } else {
                 navbar.classList.remove('scrolled');
-                scrollIndicator.classList.add('visible');
+                scrollIndicator.classList.remove('hidden');
             }
         });
 
@@ -1486,7 +1657,7 @@
             });
         }, observerOptions);
 
-        // Observe all cards and timeline items
+        // Observe all animated elements
         document.querySelectorAll('.project-card, .skill-category, .timeline-item, .approach-item').forEach(el => {
             el.style.opacity = '0';
             el.style.transform = 'translateY(30px)';
@@ -1494,36 +1665,57 @@
             observer.observe(el);
         });
 
-        // Add stagger delay to project cards
+        // Add stagger delays
         document.querySelectorAll('.project-card').forEach((card, index) => {
             card.style.transitionDelay = `${index * 0.1}s`;
         });
 
-        // Add stagger delay to skill categories
         document.querySelectorAll('.skill-category').forEach((category, index) => {
             category.style.transitionDelay = `${index * 0.15}s`;
         });
 
-        // Add stagger delay to timeline items
         document.querySelectorAll('.timeline-item').forEach((item, index) => {
             item.style.transitionDelay = `${index * 0.2}s`;
         });
 
-        // Add stagger delay to approach items
         document.querySelectorAll('.approach-item').forEach((item, index) => {
             item.style.transitionDelay = `${index * 0.15}s`;
         });
 
-        // Parallax effect for hero section
+        // Parallax effect for hero
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const heroContent = document.querySelector('.hero-content');
             if (heroContent && scrolled < window.innerHeight) {
                 heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-                heroContent.style.opacity = 1 - (scrolled / 500);
+                heroContent.style.opacity = 1 - (scrolled / 600);
+            }
+        });
+
+        // Particle effect on mouse move (throttled for performance)
+        let lastParticleTime = 0;
+        const particleInterval = 100; // ms between particles
+        
+        document.addEventListener('mousemove', (e) => {
+            const now = Date.now();
+            if (now - lastParticleTime > particleInterval && Math.random() > 0.85 && window.innerWidth > 768) {
+                lastParticleTime = now;
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = e.clientX + 'px';
+                particle.style.top = e.clientY + 'px';
+                document.body.appendChild(particle);
+                
+                particle.style.animation = 'particleFade 1s ease-out forwards';
+                
+                setTimeout(() => particle.remove(), 1000);
             }
         });
 
         // Console easter egg
         console.log('%c👋 Hey there!', 'font-size: 20px; font-weight: bold; color: #00ff88;');
-        console.log('%cLooks like you\'re checking out the code. Good instinct.', 'font-size: 
+        console.log('%cLooks like you\'re checking out the code. Good instinct.', 'font-size: 14px; color: #9ca3af;');
+        console.log('%cWant to collaborate? Let\'s talk: github.com/j-devlab', 'font-size: 14px; color: #00ccff;');
+    </script>
+</body>
+</html>
